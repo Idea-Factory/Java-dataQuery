@@ -1,0 +1,75 @@
+<project name="dataquery" default="main" basedir=".">
+    <description>
+        A buildfile for dataquery on Mac OS
+    </description>
+
+    <property name="project.root" value="${basedir}"/>
+    <property name="build.root" value="${project.root}/build"/>
+
+    <property name="build.class.dir" value="${build.root}/class"/>
+    <property name="build.jar.dir" value="${build.root}/jar"/>
+    <property name="build.test.dir" value="${build.root}/test"/>
+    <property name="build.test.report.dir" value="${build.root}/report"/>
+
+    <property name="core.src.dir" value="${project.root}/src/main/java/"/>
+    <property name="test.src.dir" value="${project.root}/src/test/java/"/>
+
+    <path id="lib.junit">
+        <pathelement location="/opt/local/share/java/junit.jar" />
+        <pathelement location="/opt/local/share/java/hamcrest-core.jar" />
+    </path> 
+    <path id="lib.dataquery">
+        <pathelement location="${build.jar.dir}/dataquery.jar" />
+    </path> 
+
+    <target name="clean" description="Clean up">
+        <delete dir="${build.root}"/>
+    </target>
+
+    <target name="compile" description="Compile source code">
+        <mkdir dir="${build.class.dir}"/>
+        <javac srcdir="${core.src.dir}" destdir="${build.class.dir}"
+            includeAntRuntime="false"/>
+    </target>
+
+    <target name="jar" description="Generate a jar from class files"
+        depends="compile">
+        <mkdir dir="${build.jar.dir}"/>
+        <jar destfile="${build.jar.dir}/dataquery.jar">
+            <fileset dir="${build.class.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="tdd" description="Run unittest" depends="jar">
+        <mkdir dir="${build.test.dir}"/>
+        <!--
+        <javac srcdir="${test.src.dir}" destdir="${build.test.dir}"
+            includeAntRuntime="false">
+            <classpath refid="lib.junit"/>
+            <classpath refid="lib.dataquery"/>
+        </javac>
+        <jar destfile="${build.jar.dir}/dataqueryTDD.jar">
+            <fileset dir="${build.test.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </jar>
+        -->
+        <mkdir dir="${build.test.report.dir}"/>
+
+        <junit printsummary="yes">
+            <classpath refid="lib.junit"/>
+            <classpath refid="lib.dataquery"/>
+            <formatter type="plain"/>
+            <batchtest todir="${build.test.report.dir}">
+                <fileset dir="${test.src.dir}" includes="**/*Test.java"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="main" description="Typical entry for building source code"
+        depends="jar">
+        <echo>Build end!</echo>
+    </target>
+</project>
