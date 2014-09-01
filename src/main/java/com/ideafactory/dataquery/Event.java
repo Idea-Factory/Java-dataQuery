@@ -30,11 +30,15 @@ public class Event {
    */
   public Event(HashMap<String, String> hint) throws IllegalArgumentException {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+    // Must throw errors if this is not an expected date format
+    formatter.setLenient(false);
+
     this.eventName = hint.get("eventName");
     this.eventId = hint.get("eventId");
     try {
-      this.startTime = formatter.parse(hint.get("startTIme"));
-      this.endTime = formatter.parse(hint.get("endTIme"));
+      this.startTime = formatter.parse(hint.get("startTime"));
+      this.endTime = formatter.parse(hint.get("endTime"));
     } catch(ParseException e) {
       throw new IllegalArgumentException(e);
     }
