@@ -4,7 +4,7 @@
  * @author Mond Wan
  */
 
-package com.ideafactory.dataquery.test;
+package com.ideafactory.dataquery.tddtest;
 
 import org.junit.Test;
 import org.junit.Ignore;
@@ -33,5 +33,8 @@ public class PerformerTest {
 
       // Real test
       p = new Performer(hint);
+      org.junit.Assert.assertEquals("Jay Chou", p.getEngName());
+      org.junit.Assert.assertEquals("Taiwan", p.getNationality());
+      org.junit.Assert.assertEquals("abc123", p.getId());
     }
 }
