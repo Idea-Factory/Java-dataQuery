@@ -14,6 +14,9 @@
     <property name="core.src.dir" value="${project.root}/src/main/java/"/>
     <property name="test.src.dir" value="${project.root}/src/test/java/"/>
 
+    <path id="lib.json">
+        <pathelement location="/opt/local/share/java/json.jar" />
+    </path>
     <path id="lib.junit">
         <pathelement location="/opt/local/share/java/junit.jar" />
         <pathelement location="/opt/local/share/java/hamcrest-core.jar" />
@@ -32,7 +35,9 @@
     <target name="compile" description="Compile source code">
         <mkdir dir="${build.class.dir}"/>
         <javac srcdir="${core.src.dir}" destdir="${build.class.dir}"
-            includeAntRuntime="false"/>
+            includeAntRuntime="false">
+            <classpath refid="lib.json"/>
+        </javac>
     </target>
 
     <target name="jar" description="Generate a jar from class files"
@@ -49,6 +54,7 @@
         <mkdir dir="${build.test.dir}"/>
         <javac srcdir="${test.src.dir}" destdir="${build.test.dir}"
             includeAntRuntime="false">
+            <classpath refid="lib.json"/>
             <classpath refid="lib.junit"/>
             <classpath refid="lib.dataquery"/>
         </javac>
@@ -59,15 +65,32 @@
         </jar>
         <mkdir dir="${build.test.report.dir}"/>
 
-        <junit printsummary="yes">
+        <junit printsummary="yes" failureProperty="test.failed">
+            <classpath refid="lib.json"/>
             <classpath refid="lib.junit"/>
             <classpath refid="lib.dataquery"/>
             <classpath refid="lib.dataquery.tdd"/>
-            <formatter type="plain"/>
+            <formatter type="xml"/>
             <batchtest todir="${build.test.report.dir}">
                 <fileset dir="${test.src.dir}" includes="**/*Test.java"/>
             </batchtest>
         </junit>
+
+        <junitreport todir="${build.test.report.dir}" tofile="TEST-Summary.xml">
+            <report format="frames" todir="${build.test.report.dir}"/>
+            <fileset dir="${build.test.report.dir}" includes="*.xml"/>
+        </junitreport>
+
+        <antcall target="dump_report" />
+    </target>
+
+    <target name="dump_report" if="test.failed">
+        <echo message="Test failed - open the test report on browser"/>
+
+        <exec dir="${build.test.report.dir}" executable="open">
+            <!-- Replace index.html if you would like to view the detail -->
+            <arg value="alltests-fails.html"/>
+        </exec>
     </target>
 
     <target name="main" description="Typical entry for building source code"
