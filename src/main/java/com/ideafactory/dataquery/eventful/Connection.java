@@ -15,6 +15,13 @@ import java.io.InputStream;
 
 import java.net.URLEncoder;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,9 +99,31 @@ public class Connection {
    *
    * @param location String
    * @return JSONObject
+   * @throws IOException
+   *   - if there are errors on http protocol
+   * @throws JSONException
+   *   - if response from eventful is not a JSON format
    */
-  public JSONObject query(String location) {
+  public JSONObject query(String location) throws IOException, JSONException {
+    // Android depends on DefaultHttpClient
+    HttpClient httpclient = new DefaultHttpClient();
+    HttpGet httpget = new HttpGet(location);
+    String ctx = null;
+    JSONObject ret = null;
 
-    return null;
+    try {
+      // Get the http response from the request
+      HttpResponse res = httpclient.execute(httpget);
+
+      // Get the response body
+      ctx = EntityUtils.toString(res.getEntity());
+
+      // Convert the body to a JSON object
+      ret = new JSONObject(ctx);
+    } catch (ClientProtocolException e) {
+      throw new IOException(e);
+    }
+
+    return ret;
   }
 }

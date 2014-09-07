@@ -21,6 +21,11 @@
         <pathelement location="/opt/local/share/java/junit.jar" />
         <pathelement location="/opt/local/share/java/hamcrest-core.jar" />
     </path> 
+    <path id="lib.apache.http">
+        <pathelement location="/opt/local/share/java/httpclient.jar" />
+        <pathelement location="/opt/local/share/java/httpcore.jar" />
+        <pathelement location="/opt/local/share/java/commons-logging.jar" />
+    </path>
     <path id="lib.dataquery">
         <pathelement location="${build.jar.dir}/dataquery.jar" />
     </path> 
@@ -37,6 +42,8 @@
         <javac srcdir="${core.src.dir}" destdir="${build.class.dir}"
             includeAntRuntime="false">
             <classpath refid="lib.json"/>
+            <classpath refid="lib.apache.http"/>
+            <compilerarg value="-Xlint"/>
         </javac>
     </target>
 
@@ -57,6 +64,7 @@
             <classpath refid="lib.json"/>
             <classpath refid="lib.junit"/>
             <classpath refid="lib.dataquery"/>
+            <classpath refid="lib.apache.http"/>
         </javac>
         <jar destfile="${build.jar.dir}/dataqueryTDD.jar">
             <fileset dir="${build.test.dir}">
@@ -68,6 +76,7 @@
         <junit printsummary="yes" failureProperty="test.failed">
             <classpath refid="lib.json"/>
             <classpath refid="lib.junit"/>
+            <classpath refid="lib.apache.http"/>
             <classpath refid="lib.dataquery"/>
             <classpath refid="lib.dataquery.tdd"/>
             <formatter type="xml"/>
@@ -77,7 +86,7 @@
         </junit>
 
         <junitreport todir="${build.test.report.dir}" tofile="TEST-Summary.xml">
-            <report format="frames" todir="${build.test.report.dir}"/>
+            <report format="noframes" todir="${build.test.report.dir}"/>
             <fileset dir="${build.test.report.dir}" includes="*.xml"/>
         </junitreport>
 
@@ -88,8 +97,7 @@
         <echo message="Test failed - open the test report on browser"/>
 
         <exec dir="${build.test.report.dir}" executable="open">
-            <!-- Replace index.html if you would like to view the detail -->
-            <arg value="alltests-fails.html"/>
+            <arg value="junit-noframes.html"/>
         </exec>
     </target>
 

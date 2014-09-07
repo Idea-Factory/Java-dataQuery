@@ -54,9 +54,24 @@ public class ConnectionTest {
 
       String url = c.prepareURL("performers/search", params);
 
-      JSONObject obj = c.query(url);
+      try {
+        JSONObject obj = c.query(url);
+        org.junit.Assert.assertNotNull(obj);
 
-      org.junit.Assert.assertNotNull(obj);
+        // Test the value inside this json
+        org.junit.Assert.assertEquals("10", obj.getString("page_size"));
+        JSONObject performers = obj.getJSONObject("performers");
+        org.junit.Assert.assertNotNull(performers);
+        JSONObject performer = performers.getJSONObject("performer");
+        org.junit.Assert.assertNotNull(performer);
+        org.junit.Assert.assertEquals(
+          "P0-001-000045643-9", performer.getString("id"));
+
+      } catch(Exception e) {
+        // Should not be come here
+        throw new Error(e);
+      }
+
     }
 
   /**
