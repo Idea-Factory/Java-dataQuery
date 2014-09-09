@@ -7,6 +7,7 @@
 package com.ideafactory.dataquery;
 
 import java.util.HashMap;
+import java.awt.geom.Point2D;
 
 public class Venue {
 
@@ -14,8 +15,8 @@ public class Venue {
   protected String name;
   protected String cityName;
   protected String address;
-  protected double longitude; //Use for support map finder later
-  protected double latitude;
+  protected String longitude; //Use for support map finder later
+  protected String latitude;
 
   // Not sure the datatype for this attribute yet
   //protected image picture;
@@ -44,8 +45,8 @@ public class Venue {
     return this.name;
   }
 
-  public Point2d getCoordinate() {
-    return new Point2d(this.longitude,this.latitude); //Double.parseDouble
+  public Point2D.Double getCoordinate() {
+    return new Point2D.Double(Double.parseDouble(this.longitude),Double.parseDouble(this.latitude)); //Double.parseDouble
   }
 
   public String getCityName() {

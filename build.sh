@@ -14,8 +14,9 @@ ANT_ARGS='-logger org.apache.tools.ant.listener.AnsiColorLogger'
 ${ANT} ${ANT_ARGS} clean
 
 # Determind running tdd or not
-if [ "$1" == "tdd" ]; then
-    ant -logger org.apache.tools.ant.listener.AnsiColorLogger tdd
+#if [ "$1" == "tdd" ]; then
+if [ "$1" = "tdd" ]; then
+    ant -lib /usr/share/ant/lib/ -logger org.apache.tools.ant.listener.AnsiColorLogger tdd
 else
     ant -logger org.apache.tools.ant.listener.AnsiColorLogger main
 fi

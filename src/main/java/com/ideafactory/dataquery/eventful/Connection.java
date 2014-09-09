@@ -29,7 +29,8 @@ public class Connection {
   // Hard coding a list of supported methods
   protected static final String[] methods = {
     "performers/search",
-    "performers/events/list"
+    "performers/events/list",
+    "/venues/search"
   };
 
   // Request JSON respond

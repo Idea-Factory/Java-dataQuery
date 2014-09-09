@@ -1,6 +1,6 @@
 <project name="dataquery" default="main" basedir=".">
     <description>
-        A buildfile for dataquery on Mac OS
+        A buildfile for dataquery on Mac OS and UNIX
     </description>
 
     <property name="project.root" value="${basedir}"/>
@@ -16,15 +16,24 @@
 
     <path id="lib.json">
         <pathelement location="/opt/local/share/java/json.jar" />
+        <pathelement location="/usr/share/java/json.jar" />
     </path>
     <path id="lib.junit">
         <pathelement location="/opt/local/share/java/junit.jar" />
         <pathelement location="/opt/local/share/java/hamcrest-core.jar" />
-    </path> 
+        <pathelement location="/usr/share/java/junit4.jar" />
+        <pathelement location="/usr/share/java/hamcrest-core-1.1.jar" />
+        <pathelement location="/usr/share/java/hamcrest-library-1.1.jar" />
+        <pathelement location="/usr/share/java/hamcrest-generator-1.1.jar" />
+        <pathelement location="/usr/share/java/hamcrest-integration-1.1.jar" />
+    </path>
     <path id="lib.apache.http">
         <pathelement location="/opt/local/share/java/httpclient.jar" />
         <pathelement location="/opt/local/share/java/httpcore.jar" />
         <pathelement location="/opt/local/share/java/commons-logging.jar" />
+        <pathelement location="/usr/share/java/httpclient.jar" />
+        <pathelement location="/usr/share/java/httpcore.jar" />
+        <pathelement location="/usr/share/java/commons-logging.jar" />
     </path>
     <path id="lib.dataquery">
         <pathelement location="${build.jar.dir}/dataquery.jar" />
