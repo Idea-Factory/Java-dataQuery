@@ -16,7 +16,8 @@ ${ANT} ${ANT_ARGS} clean
 # Determind running tdd or not
 #if [ "$1" == "tdd" ]; then
 if [ "$1" = "tdd" ]; then
-    ant -lib /usr/share/ant/lib/ -logger org.apache.tools.ant.listener.AnsiColorLogger tdd
+    # The library path solves missing junit jar on ant
+    ${ANT} ${ANT_ARGS} -lib /usr/share/ant/lib/ tdd
 else
-    ant -logger org.apache.tools.ant.listener.AnsiColorLogger main
+    ${ANT} ${ANT_ARGS} main
 fi
