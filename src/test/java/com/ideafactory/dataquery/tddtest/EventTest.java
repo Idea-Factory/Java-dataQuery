@@ -7,9 +7,6 @@
 package com.ideafactory.dataquery.tddtest;
 
 import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 import java.util.HashMap;
 import java.util.Date;
@@ -42,7 +39,7 @@ public class EventTest {
       hint.put("eventId", "C1");
       hint.put("startTime", "aa");
       hint.put("endTime", "2014-08-20");
-
+      
       // Should throw IllegalArgument
       Event e = new Event(hint);
     }
@@ -56,7 +53,7 @@ public class EventTest {
       hint.put("eventId", "C1");
       hint.put("startTime", "2014-089-11");
       hint.put("endTime", "2014-08-20");
-
+      
       // Should throw IllegalArgument
       Event e = new Event(hint);
     }

@@ -6,6 +6,9 @@
 
 package com.ideafactory.dataquery.tddtest.eventful;
 
+import static org.junit.Assert.*;
+import java.util.HashMap;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
@@ -13,7 +16,6 @@ import org.junit.runners.JUnit4;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-
 import com.ideafactory.dataquery.eventful.Connection;
 
 public class ConnectionTest {
@@ -26,11 +28,7 @@ public class ConnectionTest {
       params.put("keywords", "jay chou");
 
       String url = c.prepareURL("performers/search", params);
-      org.junit.Assert.assertEquals(
-        "http://api.eventful.com/json/performers/search?" +
-          "app_key=CfdZBmff5hcGvCxH&keywords=jay+chou",
-        url
-      );
+      assertEquals("http://api.eventful.com/json/performers/search?" +"app_key=CfdZBmff5hcGvCxH&keywords=jay+chou",url);
     }
 
   @Test(expected=IllegalArgumentException.class)
@@ -56,16 +54,15 @@ public class ConnectionTest {
 
       try {
         JSONObject obj = c.query(url);
-        org.junit.Assert.assertNotNull(obj);
+        assertNotNull(obj);
 
-        // Test the value inside this json
-        org.junit.Assert.assertEquals("10", obj.getString("page_size"));
+        // Test the value inside this 
+        assertEquals("10", obj.getString("page_size"));
         JSONObject performers = obj.getJSONObject("performers");
-        org.junit.Assert.assertNotNull(performers);
+        assertNotNull(performers);
         JSONObject performer = performers.getJSONObject("performer");
-        org.junit.Assert.assertNotNull(performer);
-        org.junit.Assert.assertEquals(
-          "P0-001-000045643-9", performer.getString("id"));
+        assertNotNull(performer);
+        assertEquals("P0-001-000045643-9", performer.getString("id"));
 
       } catch(Exception e) {
         // Should not be come here
